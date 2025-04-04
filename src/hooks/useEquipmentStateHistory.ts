@@ -3,7 +3,7 @@ import { IEquipmentStateHistory } from '../interfaces/equipmentStateHistory';
 import fetchEquipmentStateHistory from '../services/equipmentStateHistory';
 
 const useEquipmentStateHistory = () => {
-  const [equipmentStateHistory, setEquipmentStateHistory] = useState<
+  const [equipmentStateHistoryData, setEquipmentStateHistoryData] = useState<
     IEquipmentStateHistory[]
   >([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -13,7 +13,7 @@ const useEquipmentStateHistory = () => {
     setLoading(true);
     try {
       const data = await fetchEquipmentStateHistory();
-      setEquipmentStateHistory(data);
+      setEquipmentStateHistoryData(data);
     } catch (error) {
       console.error('Error while fetching the equipment model request:', error);
       setSyncError('Error while fetching the equipment model request');
@@ -27,7 +27,7 @@ const useEquipmentStateHistory = () => {
   }, []);
 
   return {
-    equipmentStateHistory,
+    equipmentStateHistoryData,
     loading,
     syncError,
     refresh: equipmentStateHistorySync,

@@ -3,7 +3,9 @@ import { IEquipmentState } from '../interfaces/equipmentState';
 import fetchEquipmentState from '../services/equipmentState';
 
 const useEquipmentState = () => {
-  const [equipmentState, setEquipmentState] = useState<IEquipmentState[]>([]);
+  const [equipmentStateData, setEquipmentStateData] = useState<
+    IEquipmentState[]
+  >([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [syncError, setSyncError] = useState<string>('');
 
@@ -11,7 +13,7 @@ const useEquipmentState = () => {
     setLoading(true);
     try {
       const data = await fetchEquipmentState();
-      setEquipmentState(data);
+      setEquipmentStateData(data);
     } catch (error) {
       console.error('Error while fetching the equipment model request:', error);
       setSyncError('Error while fetching the equipment model request');
@@ -25,7 +27,7 @@ const useEquipmentState = () => {
   }, []);
 
   return {
-    equipmentState,
+    equipmentStateData,
     loading,
     syncError,
     refresh: equipmentStateSync,

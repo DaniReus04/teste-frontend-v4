@@ -3,7 +3,7 @@ import { IEquipmentModel } from '../interfaces/equipmentModel';
 
 const fetchEquipmentModel = async (): Promise<IEquipmentModel[]> => {
   const response = await axios.get<IEquipmentModel[]>(
-    '../data/equipmentModel.json',
+    '/data/equipmentModel.json',
   );
 
   return new Promise((resolve) => {

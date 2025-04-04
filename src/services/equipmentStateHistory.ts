@@ -5,7 +5,7 @@ const fetchEquipmentStateHistory = async (): Promise<
   IEquipmentStateHistory[]
 > => {
   const response = await axios.get<IEquipmentStateHistory[]>(
-    '../data/equipmentStateHistory.json',
+    '/data/equipmentStateHistory.json',
   );
 
   return new Promise((resolve) => {

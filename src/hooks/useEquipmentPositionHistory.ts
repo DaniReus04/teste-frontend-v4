@@ -3,9 +3,8 @@ import { IEquipmentPositionHistory } from '../interfaces/equipmentPositionHistor
 import fetchEquipmentPositionHistory from '../services/equipmentPositionHistory';
 
 const useEquipmentPositionHistory = () => {
-  const [equipmentPositionHistory, setEquipmentPositionHistory] = useState<
-    IEquipmentPositionHistory[]
-  >([]);
+  const [equipmentPositionHistoryData, setEquipmentPositionHistoryData] =
+    useState<IEquipmentPositionHistory[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [syncError, setSyncError] = useState<string>('');
 
@@ -13,7 +12,7 @@ const useEquipmentPositionHistory = () => {
     setLoading(true);
     try {
       const data = await fetchEquipmentPositionHistory();
-      setEquipmentPositionHistory(data);
+      setEquipmentPositionHistoryData(data);
     } catch (error) {
       console.error('Error while fetching the equipment model request:', error);
       setSyncError('Error while fetching the equipment model request');
@@ -27,7 +26,7 @@ const useEquipmentPositionHistory = () => {
   }, []);
 
   return {
-    equipmentPositionHistory,
+    equipmentPositionHistoryData,
     loading,
     syncError,
     refresh: equipmentPositionHistorySync,
