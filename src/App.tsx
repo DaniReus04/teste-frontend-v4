@@ -1,7 +1,12 @@
-import './data/equipment.json';
+import { RouterProvider } from 'react-router-dom';
+import AppRouter from './appRouter';
 
 function App() {
-  return <div className="text-red-500">Teste</div>;
+  return (
+    <section>
+      <RouterProvider router={AppRouter} />
+    </section>
+  );
 }
 
 export default App;
