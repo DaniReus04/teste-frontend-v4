@@ -13,12 +13,18 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@date-io/date-fns": "^3.2.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.0.1",
+    "@mui/lab": "^7.0.0-beta.10",
     "@mui/material": "^7.0.1",
+    "@mui/x-date-pickers": "^7.28.3",
+    "@mui/x-date-pickers-pro": "^7.28.3",
+    "@react-google-maps/api": "^2.20.6",
     "@tailwindcss/vite": "^4.1.1",
     "axios": "^1.8.4",
+    "date-fns": "2.29.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.1",
