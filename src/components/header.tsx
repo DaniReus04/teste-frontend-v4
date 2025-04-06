@@ -17,7 +17,7 @@ function Header() {
       <div className="flex gap-5">
         <Link
           to="/"
-          className="text-white border border-primary bg-primary rounded-lg py-1.5 px-3.5 hover:bg-secondary hover:rounded-xl hover:shadow-md"
+          className="relative text-2xl inline-flex justify-start items-center gap-2 text-left w-fit pb-1 box-border border-b-2 border-transparent after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
         >
           Home
         </Link>
