@@ -44,6 +44,7 @@ function Home() {
   useEffect(() => {
     const mergeEquipmentData = () => {
       const mergedData = equipment.map((equip) => {
+        const id = equipment.find((e) => e.id === equip.id);
         const model = equipmentModel.find(
           (m) => m.id === equip.equipmentModelId,
         );
@@ -58,7 +59,7 @@ function Home() {
         );
 
         return {
-          id: history?.equipmentId || '',
+          id: id?.id || '',
           equipmentName: equip.name,
           modelName: model?.name || 'Modelo Desconhecido',
           currentState: currentState?.name || 'Estado Desconhecido',
@@ -82,7 +83,11 @@ function Home() {
 
   return (
     <div>
-      <EquipmentTable equipmentTableValues={equipmentTableValues} />
+      {equipmentTableValues.find((e) => e.lastUpdate === 'Invalid Date') ? (
+        ''
+      ) : (
+        <EquipmentTable equipmentTableValues={equipmentTableValues} />
+      )}
     </div>
   );
 }
