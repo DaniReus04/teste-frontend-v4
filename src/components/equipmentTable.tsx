@@ -11,10 +11,10 @@ import {
   TableRow,
 } from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
-import { IEquipmentTableValues } from '../interfaces/equipmentTableValues';
+import { IEquipmentDetail } from '../interfaces/equipment';
 
 interface IEquipementTable {
-  equipmentTableValues: IEquipmentTableValues[];
+  equipmentTableValues: IEquipmentDetail[];
 }
 
 const StyledTableCell = styled(TableCell)(() => ({
@@ -43,25 +43,24 @@ function EquipmentTable({ equipmentTableValues }: IEquipementTable) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {equipmentTableValues.map((row: IEquipmentTableValues) => (
-            <TableRow key={row.id}>
-              <StyledTableCell align="center">
-                {row.equipmentName}
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.modelName}</StyledTableCell>
-              <StyledTableCell align="center">
-                {row.currentState}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                {new Date(row.lastUpdate).toLocaleDateString('pt-BR')}
-              </StyledTableCell>
-              <StyledTableCell align="center">
-                <Link to={`./equipmentdetail/${row.id}`}>
-                  <MapIcon className="text-secondary hover:text-quaternary" />
-                </Link>
-              </StyledTableCell>
-            </TableRow>
-          ))}
+          {equipmentTableValues.map((row: IEquipmentDetail) => {
+            const lastPosition = row?.positionHistory?.positions[row?.positionHistory.positions.length - 1];
+            return (
+              <TableRow key={row.id}>
+                <StyledTableCell align="center">{row.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.model?.name}</StyledTableCell>
+                <StyledTableCell align="center">{row.state?.name}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {lastPosition ? new Date(lastPosition?.date).toLocaleDateString('pt-BR') : ''}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <Link to={`./equipmentdetail/${row.id}`}>
+                    <MapIcon className="text-secondary hover:text-quaternary" />
+                  </Link>
+                </StyledTableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

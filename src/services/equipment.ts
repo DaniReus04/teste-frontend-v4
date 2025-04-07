@@ -1,12 +1,42 @@
 import axios from 'axios';
-import { IEquipment } from '../interfaces/equipment';
+import { IEquipment, IEquipmentDetail } from '../interfaces/equipment';
+import { fetchEquipmentModelById } from './equipmentModel';
+import { fetchEquipmentPositionHistoryById } from './equipmentPositionHistory';
+import { fetchEquipmentStateHistoryById } from './equipmentStateHistory';
+import { fetchEquipmentStateById } from './equipmentState';
 
-const fetchEquipment = async (): Promise<IEquipment[]> => {
+export const fetchAllEquipments = async (): Promise<IEquipment[]> => {
   const response = await axios.get<IEquipment[]>('/data/equipment.json');
 
   return new Promise((resolve) => {
-    setTimeout(() => resolve(response.data), 1000);
+    resolve(response.data);
   });
 };
 
-export default fetchEquipment;
+export const fetchEquipmentDetail = async (id: string): Promise<IEquipmentDetail | undefined> => {
+  if (!id) return undefined;
+
+  const response = await fetchAllEquipments();
+
+  if (response) {
+    const eq = response.find((e) => e.id === id);
+    if (eq) {
+      const model = await fetchEquipmentModelById(eq?.equipmentModelId);
+      const positionHistory = await fetchEquipmentPositionHistoryById(eq?.id);
+      const stateHistory = await fetchEquipmentStateHistoryById(eq?.id);
+      const lastStateHistoryId = stateHistory
+        ? stateHistory.states[stateHistory?.states.length - 1].equipmentStateId
+        : undefined;
+      const state = await fetchEquipmentStateById(lastStateHistoryId);
+
+      return {
+        ...eq,
+        model,
+        positionHistory,
+        stateHistory,
+        state,
+      };
+    }
+  }
+  return undefined;
+};

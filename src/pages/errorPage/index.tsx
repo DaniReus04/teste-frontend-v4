@@ -1,9 +1,5 @@
 import { Button } from '@mui/material';
-import {
-  useRouteError,
-  isRouteErrorResponse,
-  useNavigate,
-} from 'react-router-dom';
+import { useRouteError, isRouteErrorResponse, useNavigate } from 'react-router-dom';
 
 interface RouteError {
   status?: number;

@@ -6,12 +6,7 @@ function Header() {
     <div className="flex items-center justify-between px-9 py-5 bg-tertiary border-b-[1px] border-secondary">
       <div>
         <Link to="/">
-          <img
-            src={AikoLogo}
-            alt="Aiko Logo"
-            className="h-12"
-            style={{ minWidth: '97px' }}
-          />
+          <img src={AikoLogo} alt="Aiko Logo" className="h-12" style={{ minWidth: '97px' }} />
         </Link>
       </div>
       <div className="flex gap-5">

@@ -1,16 +1,20 @@
 import axios from 'axios';
 import { IEquipmentPositionHistory } from '../interfaces/equipmentPositionHistory';
 
-const fetchIEquipmentPositionHistory = async (): Promise<
-  IEquipmentPositionHistory[]
-> => {
-  const response = await axios.get<IEquipmentPositionHistory[]>(
-    '/data/equipmentPositionHistory.json',
-  );
+export const fetchAllEquipmentsPositionHistory = async (): Promise<IEquipmentPositionHistory[]> => {
+  const response = await axios.get<IEquipmentPositionHistory[]>('/data/equipmentPositionHistory.json');
 
   return new Promise((resolve) => {
-    setTimeout(() => resolve(response.data), 1000);
+    resolve(response.data);
   });
 };
 
-export default fetchIEquipmentPositionHistory;
+export const fetchEquipmentPositionHistoryById = async (
+  id?: string,
+): Promise<IEquipmentPositionHistory | undefined> => {
+  if (!id) return undefined;
+
+  const response = await fetchAllEquipmentsPositionHistory();
+
+  return response.find((e) => e.equipmentId === id);
+};

@@ -1,14 +1,18 @@
 import axios from 'axios';
 import { IEquipmentModel } from '../interfaces/equipmentModel';
 
-const fetchEquipmentModel = async (): Promise<IEquipmentModel[]> => {
-  const response = await axios.get<IEquipmentModel[]>(
-    '/data/equipmentModel.json',
-  );
+export const fetchAllEquipmentsModels = async (): Promise<IEquipmentModel[]> => {
+  const response = await axios.get<IEquipmentModel[]>('/data/equipmentModel.json');
 
   return new Promise((resolve) => {
-    setTimeout(() => resolve(response.data), 1000);
+    resolve(response.data);
   });
 };
 
-export default fetchEquipmentModel;
+export const fetchEquipmentModelById = async (id?: string): Promise<IEquipmentModel | undefined> => {
+  if (!id) return undefined;
+
+  const response = await fetchAllEquipmentsModels();
+
+  return response.find((e) => e.id === id);
+};

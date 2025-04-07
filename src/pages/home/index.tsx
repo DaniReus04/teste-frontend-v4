@@ -1,93 +1,38 @@
 import { useEffect, useState } from 'react';
 import useEquipment from '../../hooks/useEquipment';
-import useEquipmentModel from '../../hooks/useEquipmentModel';
-import useEquipmentState from '../../hooks/useEquipmentState';
-import useEquipmentStateHistory from '../../hooks/useEquipmentStateHistory';
-import { IEquipment } from '../../interfaces/equipment';
-import { IEquipmentModel } from '../../interfaces/equipmentModel';
-import { IEquipmentState } from '../../interfaces/equipmentState';
-import { IEquipmentTableValues } from '../../interfaces/equipmentTableValues';
-import { IEquipmentStateHistory } from '../../interfaces/equipmentStateHistory';
+import { IEquipmentDetail } from '../../interfaces/equipment';
 import EquipmentTable from '../../components/equipmentTable';
+import { fetchEquipmentDetail } from '../../services/equipment';
 
 function Home() {
-  const [equipment, setEquipment] = useState<IEquipment[]>([]);
-  const [equipmentModel, setEquipmentModel] = useState<IEquipmentModel[]>([]);
-  const [equipmentState, setEquipmentState] = useState<IEquipmentState[]>([]);
-  const [equipmentStateHistory, setEquipmentStateHistory] = useState<
-    IEquipmentStateHistory[]
-  >([]);
-  const [equipmentTableValues, setEquipmentTableValues] = useState<
-    IEquipmentTableValues[]
-  >([]);
+  const [equipmentTableValues, setEquipmentTableValues] = useState<IEquipmentDetail[]>([]);
+  const [loader, setLoader] = useState<boolean>(true);
 
-  const { equipmentData, loading: equipmentLoading } = useEquipment();
-  const { equipmentModelData, loading: equipmentModelLoading } =
-    useEquipmentModel();
-  const { equipmentStateData, loading: equipmentStateLoading } =
-    useEquipmentState();
-  const { equipmentStateHistoryData, loading: equipmentStateHistoryLoading } =
-    useEquipmentStateHistory();
+  const { equipmentData } = useEquipment();
 
   useEffect(() => {
-    setEquipment(equipmentData);
-    setEquipmentModel(equipmentModelData);
-    setEquipmentState(equipmentStateData);
-    setEquipmentStateHistory(equipmentStateHistoryData);
-  }, [
-    equipmentData,
-    equipmentModelData,
-    equipmentStateData,
-    equipmentStateHistoryData,
-  ]);
+    if (equipmentData.length) {
+      const mergeEquipmentData = async () => {
+        const allEquipments = [];
+        for (let i = 0; i < equipmentData.length; i += 1) {
+          const detail = await fetchEquipmentDetail(equipmentData[i].id);
+          if (detail) allEquipments.push(detail);
+        }
 
-  useEffect(() => {
-    const mergeEquipmentData = () => {
-      const mergedData = equipment.map((equip) => {
-        const id = equipment.find((e) => e.id === equip.id);
-        const model = equipmentModel.find(
-          (m) => m.id === equip.equipmentModelId,
-        );
-        const history = equipmentStateHistory.find(
-          (h) => h.equipmentId === equip.id,
-        );
-        const lastStateEntry = history?.states.reduce((latest, current) =>
-          new Date(latest.date) > new Date(current.date) ? latest : current,
-        );
-        const currentState = equipmentState.find(
-          (state) => state.id === lastStateEntry?.equipmentStateId,
-        );
+        const all = await Promise.all(allEquipments);
+        setEquipmentTableValues(all);
+        setLoader(false);
+      };
 
-        return {
-          id: id?.id || '',
-          equipmentName: equip.name,
-          modelName: model?.name || 'Modelo Desconhecido',
-          currentState: currentState?.name || 'Estado Desconhecido',
-          lastUpdate: lastStateEntry?.date || 'Sem histórico',
-        };
-      });
+      mergeEquipmentData();
+    }
+  }, [equipmentData]);
 
-      setEquipmentTableValues(mergedData);
-    };
-
-    mergeEquipmentData();
-  }, [equipment, equipmentModel, equipmentState, equipmentStateHistory]);
-
-  if (
-    equipmentLoading ||
-    equipmentModelLoading ||
-    equipmentStateLoading ||
-    equipmentStateHistoryLoading
-  )
-    return <div>Loading...</div>;
+  if (loader) return <div>Loading...</div>;
 
   return (
     <div>
-      {equipmentTableValues.find((e) => e.lastUpdate === 'Invalid Date') ? (
-        ''
-      ) : (
-        <EquipmentTable equipmentTableValues={equipmentTableValues} />
-      )}
+      <EquipmentTable equipmentTableValues={equipmentTableValues} />
     </div>
   );
 }

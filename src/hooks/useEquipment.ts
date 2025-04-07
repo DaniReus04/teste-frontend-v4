@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { IEquipment } from '../interfaces/equipment';
-import fetchEquipment from '../services/equipment';
+import { fetchAllEquipments } from '../services/equipment';
 
 const useEquipment = () => {
   const [equipmentData, setEquipmentData] = useState<IEquipment[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [syncError, setSyncError] = useState<string>('');
 
-  const equipmentSync = async () => {
-    setLoading(true);
+  const equipmentSync = useCallback(async () => {
     try {
-      const data = await fetchEquipment();
+      const data = await fetchAllEquipments();
       setEquipmentData(data);
     } catch (error) {
       console.error('Error while fetching the equipment request:', error);
@@ -18,11 +17,11 @@ const useEquipment = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     equipmentSync();
-  }, []);
+  }, [equipmentSync]);
 
   return {
     equipmentData,
