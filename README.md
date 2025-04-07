@@ -1,54 +1,59 @@
-# React + TypeScript + Vite
+# Visualização de histórico de equipamentos 🗺️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Esse projeto foi construído usando React 19, [Typescript](https://www.typescriptlang.org/), [TailwindCSS](https://tailwindcss.com/) and [Vite](https://vite.dev/guide/)
 
-Currently, two official plugins are available:
+## Teste FrontEnd V4
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O projeto consiste no desenvolvimento do frontend de uma aplicação web voltada para a gestão de operações florestais. A aplicação consome dados coletados em campo sobre os equipamentos utilizados na operação, incluindo o histórico de posições (via GPS) e estados operacionais.
 
-## Expanding the ESLint configuration
+O estado de cada equipamento indica sua atividade em um determinado momento, podendo ser categorizado como "Operando", "Parado" ou "Em Manutenção". Essas informações são registradas de acordo com o uso do equipamento durante a operação, enquanto as posições são captadas por GPS e enviadas periodicamente para armazenamento.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+O objetivo da aplicação web é tratar esses dados e apresentá-los de forma clara e interativa para os gestores da operação, possibilitando o acompanhamento eficiente das atividades em campo. A interface oferece visualizações como mapas, linhas do tempo e painéis de status, facilitando a análise do desempenho e o apoio à tomada de decisões estratégicas.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- ✅ Posições dos equipamentos: Exibir no mapa os equipamentos nas suas posições mais recentes.
+- ✅ Estado atual do equipamento: Visualizar o estado mais recente dos equipamentos. Exemplo: mostrando no mapa, como um pop-up, mouse hover sobre o equipamento, etc.
+- ✅ Histórico de estados do equipamento: Permitir a visualização do histórico de estados de um equipamento específico ao clicar sobre o equipamento.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Frameworks/Bibliotecas 📖
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+ - React 19 ⚛️
+ - Typescript 🆒
+ - Vite 6 ⚡
+ - Tailwindcss 🖌️
+ - Material UI 📘
+ - Husky 🐺
+ - React Google Maps 🌎
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Requerimentos 🔴
+
+ - Node version 22.X ✅
+ - Visual Studio Code 🌐
+ - Yarn version 1.22 🐈
+
+### Visual Studio Code Extensions
+
+- Tailwind CSS Intellisense ✍️
+- ESLint 🖌️
+- Prettier ✏️
+
+### Preview 🛜
+
+- Page: [Aiko Page](https://teste-frontend-v4-iota.vercel.app)
+
+### Vídeo explicação
+
+- [Vídeo](https://drive.google.com/file/d/1KS51Se8t5SjiZ-jHmiafBuBq8N4aIimQ/view?usp=sharing)
+
+## Iniciando projeto 🧑‍💻
+
+### Instalando dependências ⬇️
+
+Digite `yarn` ou `npm i` no terminal para instalar as dependências.
+
+### .env
+
+Sera necessário anexar um .env no projeto passando sua API Key do google maps para a o prop `VITE_GOOGLE_MAPS_API_KEY`.
+
+### Rodando o projeto 🏁
+
+Depois de instalado todas as dependências, digite `yarn dev` ou `npm dev` para rodar o projeto no seu local.
